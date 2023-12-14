@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Pokemon from "../Pokemon/Pokemon";
 
 function PokemonList() {
   const [pokemonList, setPokemonList] = useState([]);
@@ -15,21 +16,22 @@ function PokemonList() {
       );
 
       const pokemonData = await axios.all(pokemonResultPromise);
-      console.log(pokemonData)
-
-
-      //setPokemonList
 
       // Extract the relevant data from each response
       const updatedPokemonList = pokemonData.map((pokeData) => {
-        const pokemon=pokeData.data;
+        const pokemon = pokeData.data;
         return {
-            name:pokemon.name,
-            image:(pokemon.sprites.other)? pokemon.sprites.other.dream_world.front_default:pokemon.sprites.front_shiny,
-            types:pokemon.types
-        }
+          id: pokemon.id,
+          name: pokemon.name,
+          image: (pokemon.sprites.other)
+            ? pokemon.sprites.other.dream_world.front_default
+            : pokemon.sprites.front_shiny,
+          types: pokemon.types
+        };
       });
-      console.log(updatedPokemonList)
+
+      console.log("Updated Pokemon List:", updatedPokemonList);
+
       setPokemonList(updatedPokemonList);
       setIsLoading(false);
     } catch (error) {
@@ -42,17 +44,18 @@ function PokemonList() {
     downloadPokemons();
   }, []);
 
+  console.log("Render - Pokemon List:", pokemonList);
+
   return (
     <div className="pokemon-list-wrapper">
       <h1>Pokemon List</h1>
-      {isLoading ? 'Loading....' : "Data Is Downloaded"}
-      {/* Display Pokemon data here */}
-      {pokemonList.map((pokemon) => (
-        <div key={pokemon.id}>
-          <p>{pokemon.name}</p>
-          {/* Add more details based on your needs */}
-        </div>
-      ))}
+      {isLoading ? 'Loading....' : (
+        <div>
+         {pokemonList.map((p) => (
+          <Pokemon key={p.id} name={p.name} image={p.image} />
+          ))}
+       </div>
+      )}
     </div>
   );
 }
