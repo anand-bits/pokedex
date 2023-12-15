@@ -1,9 +1,7 @@
-// PokemonList.js
-
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Pokemon from "../Pokemom/Pokemon";
-import "./PokemonList.css"; // Import the CSS file
+import "./PokemonList.css"; // Import the CSS file with the correct name
 
 function PokemonList() {
   const [pokemonList, setPokemonList] = useState([]);
@@ -50,12 +48,12 @@ function PokemonList() {
   console.log("Render - Pokemon List:", pokemonList);
 
   return (
-    <div className="pokemon-list-wrapper">
+    <div className="pokemon-card-container"> {/* Updated class name */}
       <h1>Pokemon List</h1>
       {isLoading ? (
         <p className="loading-message">Loading....</p>
       ) : (
-        <div>
+        <div className="pokemon-wrapper" > 
           {pokemonList.map((p) => (
             <div className="pokemon-card" key={p.id}>
               <Pokemon name={p.name} image={p.image} />

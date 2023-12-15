@@ -1,0 +1,12 @@
+
+.pokemon-image {
+    margin: 10px;
+    height: fit-content;
+    width: fit-content;
+    /* Adjust this value based on your preference */
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
