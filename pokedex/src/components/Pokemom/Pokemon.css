@@ -1,12 +1,38 @@
+/* Pokemon.css */
+
+.pokemon {
+ 
+  padding: 0.5px;
+  margin-top: 2rem;
+ 
+ 
+  background-color: #f4c2c2;
+  
+  transition: transform 0.3s ease-in-out;
+  
+}
+
+.pokemon:hover {
+  transform: scale(1.05);
+}
+
+.pokemon-name {
+  margin-top: 10px;
+  color: #0b0101;
+  font-size: large; /* or use a specific size like 20px */
+  font-weight: bold;  /* Use 'bold' instead of 'font-style' */
+  letter-spacing: 0.5rem;
+}
 
 .pokemon-image {
-    margin: 10px;
-    height: fit-content;
-    width: fit-content;
-    /* Adjust this value based on your preference */
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-  }
-  
+  width: 150px; /* Adjust the size as needed */
+  height: 150px; /* Adjust the size as needed */
+ 
+ 
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Add animation if you want */
+.pokemon-image:hover {
+  transform: scale(1.15);
+}

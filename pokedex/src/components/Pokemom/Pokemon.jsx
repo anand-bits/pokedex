@@ -3,13 +3,23 @@ import './Pokemon.css'; // Update the import to match the CSS file name
 
 function Pokemon({ name, image }) {
   return (
-    <div className="pokemon-image">
-      <h2>{name}</h2>
-      <img
-        src={image}
-        alt={name}
-        onError={(e) => console.error('Image Error:', e, image)}
+    <div className='pokemon'>
+      <div className='pokemon-name'>
+        {name}
+
+      </div>
+
+
+      <div >
+
+      <img className='pokemon-image' 
+      
+      src={image}
+        
+      
       />
+      </div>
+      
     </div>
   );
 }
