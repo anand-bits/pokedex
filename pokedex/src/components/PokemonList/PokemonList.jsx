@@ -61,6 +61,12 @@ function PokemonList() {
           ))}
         </div>
       )}
+
+      <div className="controls">
+        <button>Prev</button>
+        <button>Next</button>
+
+      </div>
     </div>
   );
 }
