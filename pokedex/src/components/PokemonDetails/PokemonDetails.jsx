@@ -37,14 +37,14 @@ function PokemonDetails() {
     <div className="pokemon-details-wrapper2">
       <div className="pokemon-name2">Name: {pokemon.name}</div>
       <img className="pokemon-image2" src={pokemon.image} alt={pokemon.name} />
-      <div>Height: {pokemon.height}</div>
-      <div>Weight: {pokemon.weight}</div>
+      <div><h1>Height: {pokemon.height}</h1></div>
+      <div><h1>Weight: {pokemon.weight}</h1></div>
       <div className="pokemon-types2">
-        Types:
+        <h1>Types:
         {pokemon.types.map((t, index) => (
           <div key={index}>{t}</div>
         ))}
-      </div>
+      </h1></div>
     </div>
   );
 }

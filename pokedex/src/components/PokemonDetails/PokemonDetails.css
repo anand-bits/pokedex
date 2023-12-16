@@ -35,8 +35,8 @@
     margin: 8px;
     border-radius: 8px;
     background-color: #71eca6; /* Change to your desired color */
-    color: #333;
-    font-size: 18px;
+    color: #060101;
+    font-size:large;
     transition: transform 0.3s ease-in-out;
   }
   
