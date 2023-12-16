@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Pokemon from "../Pokemom/Pokemon";
 import "./PokemonList.css"; // Import the CSS file with the correct name
@@ -6,10 +6,14 @@ import "./PokemonList.css"; // Import the CSS file with the correct name
 function PokemonList() {
   const [pokemonList, setPokemonList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [pokedex_url, setPokedexUrl] = useState('https://pokeapi.co/api/v2/pokemon');
+  const [nextUrl, setNextUrl] = useState('');
+  const [prevUrl, setPrevUrl] = useState('');
 
-  async function downloadPokemons() {
+  async function downloadPokemons(url) {
     try {
-      const response = await axios.get('https://pokeapi.co/api/v2/pokemon');
+      setIsLoading(true);
+      const response = await axios.get(url);
       const pokemonResult = response.data.results;
 
       const pokemonResultPromise = pokemonResult.map((pokemon) =>
@@ -31,10 +35,10 @@ function PokemonList() {
         };
       });
 
-      console.log("Updated Pokemon List:", updatedPokemonList);
-
       setPokemonList(updatedPokemonList);
       setIsLoading(false);
+      setNextUrl(response.data.next);
+      setPrevUrl(response.data.previous);
     } catch (error) {
       console.error("Error fetching data:", error);
       setIsLoading(false);
@@ -42,30 +46,41 @@ function PokemonList() {
   }
 
   useEffect(() => {
-    downloadPokemons();
-  }, []);
+    downloadPokemons(pokedex_url);
+  }, [pokedex_url]);
 
-  console.log("Render - Pokemon List:", pokemonList);
+  const handlePrevClick = () => {
+    if (prevUrl) {
+      setPokedexUrl(prevUrl);
+    }
+  };
+
+  const handleNextClick = () => {
+    if (nextUrl) {
+      setPokedexUrl(nextUrl);
+    }
+  };
 
   return (
-    <div className="pokemon-card-container"> {/* Updated class name */}
+    <div className="pokemon-card-container">
       <h1>Pokemon List</h1>
       {isLoading ? (
         <p className="loading-message">Loading....</p>
       ) : (
-        <div className="pokemon-wrapper" > 
+        <div className="pokemon-wrapper">
           {pokemonList.map((p) => (
             <div className="pokemon-card" key={p.id}>
-              <Pokemon name={p.name} image={p.image} />
+              <Pokemon name={p.name} image={p.image} id={p.id} />
             </div>
           ))}
         </div>
       )}
 
       <div className="controls">
-        <button>Prev</button>
-        <button>Next</button>
+        
+        <button disabled={prevUrl==null} onClick={handlePrevClick}>Prev</button>
 
+        <button  disabled={nextUrl==null}  onClick={handleNextClick}>Next</button>
       </div>
     </div>
   );

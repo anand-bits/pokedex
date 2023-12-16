@@ -1,0 +1,11 @@
+
+#pokedex-heading {
+    margin: 0 auto;
+    letter-spacing: 2px;
+    font-size: 2rem;
+    color: #3498db;
+    text-align: center;
+    
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
