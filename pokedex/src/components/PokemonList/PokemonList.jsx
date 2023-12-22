@@ -4,15 +4,19 @@ import Pokemon from "../Pokemom/Pokemon";
 import "./PokemonList.css"; // Import the CSS file with the correct name
 
 function PokemonList() {
-  const [pokemonList, setPokemonList] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [pokedex_url, setPokedexUrl] = useState('https://pokeapi.co/api/v2/pokemon');
-  const [nextUrl, setNextUrl] = useState('');
-  const [prevUrl, setPrevUrl] = useState('');
+  // Combine multiple state variables into a single state object
+  const [state, setState] = useState({
+    pokemonList: [],
+    isLoading: true,
+    pokedexUrl: 'https://pokeapi.co/api/v2/pokemon',
+    nextUrl: '',
+    prevUrl: '',
+  });
 
   async function downloadPokemons(url) {
     try {
-      setIsLoading(true);
+      // Update state to indicate loading
+      setState((prevState) => ({ ...prevState, isLoading: true }));
       const response = await axios.get(url);
       const pokemonResult = response.data.results;
 
@@ -35,40 +39,48 @@ function PokemonList() {
         };
       });
 
-      setPokemonList(updatedPokemonList);
-      setIsLoading(false);
-      setNextUrl(response.data.next);
-      setPrevUrl(response.data.previous);
+      // Update state with the fetched data
+      setState((prevState) => ({
+        ...prevState,
+        pokemonList: updatedPokemonList,
+        isLoading: false,
+        nextUrl: response.data.next,
+        prevUrl: response.data.previous,
+      }));
     } catch (error) {
       console.error("Error fetching data:", error);
-      setIsLoading(false);
+      // Update state to indicate loading is complete with an error
+      setState((prevState) => ({ ...prevState, isLoading: false }));
     }
   }
 
   useEffect(() => {
-    downloadPokemons(pokedex_url);
-  }, [pokedex_url]);
+    // Trigger the initial download of Pokemon data
+    downloadPokemons(state.pokedexUrl);
+  }, [state.pokedexUrl]);
 
   const handlePrevClick = () => {
-    if (prevUrl) {
-      setPokedexUrl(prevUrl);
+    if (state.prevUrl) {
+      // Update state to navigate to the previous page
+      setState((prevState) => ({ ...prevState, pokedexUrl: state.prevUrl }));
     }
   };
 
   const handleNextClick = () => {
-    if (nextUrl) {
-      setPokedexUrl(nextUrl);
+    if (state.nextUrl) {
+      // Update state to navigate to the next page
+      setState((prevState) => ({ ...prevState, pokedexUrl: state.nextUrl }));
     }
   };
 
   return (
     <div className="pokemon-card-container">
       <h1>Pokemon List</h1>
-      {isLoading ? (
+      {state.isLoading ? (
         <p className="loading-message">Loading....</p>
       ) : (
         <div className="pokemon-wrapper">
-          {pokemonList.map((p) => (
+          {state.pokemonList.map((p) => (
             <div className="pokemon-card" key={p.id}>
               <Pokemon name={p.name} image={p.image} id={p.id} />
             </div>
@@ -77,10 +89,10 @@ function PokemonList() {
       )}
 
       <div className="controls">
-        
-        <button disabled={prevUrl==null} onClick={handlePrevClick}>Prev</button>
-
-        <button  disabled={nextUrl==null}  onClick={handleNextClick}>Next</button>
+        {/* Disable the "Prev" button if there is no previous page */}
+        <button disabled={state.prevUrl == null} onClick={handlePrevClick}>Prev</button>
+        {/* Disable the "Next" button if there is no next page */}
+        <button disabled={state.nextUrl == null} onClick={handleNextClick}>Next</button>
       </div>
     </div>
   );
